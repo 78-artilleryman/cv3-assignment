@@ -1,3 +1,4 @@
+import { getCategoryMap, resolveCategoryName } from "./categories";
 import { formatBroadcastTime } from "./datetime";
 import type {
   AssignmentPageProps,
@@ -32,12 +33,17 @@ export async function fetchBroadcasts(
 
   // 과제 요건: 유형별 최대 10개
   const list = props.list.slice(0, 10);
-  const items = list.map((raw) =>
-    type === "lb"
-      ? normalizeLb(raw as RawLbItem, masked)
-      : normalizeHs(raw as RawHsItem, masked),
-  );
 
+  if (type === "lb") {
+    // lb는 분류명이 없으므로 카테고리 사전으로 cid를 이름으로 변환한다.
+    const categoryMap = await getCategoryMap();
+    const items = (list as RawLbItem[]).map((raw) =>
+      normalizeLb(raw, masked, resolveCategoryName(categoryMap, raw.cid)),
+    );
+    return { items, masked };
+  }
+
+  const items = (list as RawHsItem[]).map((raw) => normalizeHs(raw, masked));
   return { items, masked };
 }
 
@@ -56,14 +62,18 @@ export function extractPageProps(html: string): AssignmentPageProps {
   return data.props.pageProps as AssignmentPageProps;
 }
 
-/** 라이브 방송(lb) 원본 → 공통 형태 */
-function normalizeLb(raw: RawLbItem, masked: boolean): Broadcast {
+/** 라이브 방송(lb) 원본 → 공통 형태 (분류명은 카테고리 사전에서 해석해 주입받는다) */
+function normalizeLb(
+  raw: RawLbItem,
+  masked: boolean,
+  category: string,
+): Broadcast {
   return {
     id: raw.objectID,
     title: raw.title,
     platform: "네이버쇼핑LIVE",
     categoryCode: raw.cid,
-    category: "", // lb 분류명은 별도 매핑이 필요 → 이후 단계에서 채운다
+    category,
     startTime: formatBroadcastTime(raw.datetime_start),
     views: raw.visit_cnt,
     salesCount: raw.sales_cnt,
