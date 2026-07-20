@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 라방바 데이터랩 · 방송 랭킹 (채용 과제)
 
-## Getting Started
+[라방바 데이터랩](http://live.ecomm-data.com/assignment)의 방송 리스트를 보여주는 웹 페이지입니다.
+유형 토글(**라이브 방송 / 홈쇼핑**)로 목록을 전환하며, 각 유형별 상위 10개 방송을 테이블로 보여줍니다.
 
-First, run the development server:
+## 실행 방법
+
+> 패키지 매니저는 **pnpm**을 사용합니다. ([설치](https://pnpm.io/installation): `npm i -g pnpm`)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+이후 브라우저에서 [http://localhost:3000](http://localhost:3000) 접속.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 기술 스택
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 16** (App Router) + React 19 + TypeScript
+- 별도 DB/외부 API 없음 — 원본 페이지에서 실시간으로 데이터를 가져옵니다.
 
-## Learn More
+## 데이터를 가져오는 방법
 
-To learn more about Next.js, take a look at the following resources:
+<!-- TODO: 아키텍처 상세 (프록시 + __NEXT_DATA__ 파싱) 는 이후 커밋에서 문서화 -->
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 프로젝트 구조
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<!-- TODO -->
